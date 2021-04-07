@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>doctor login</title>
+</head>
+<h1 ALIGN="center"  STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2 ALIGN="center" STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 ALIGN="CENTER" STYLE="font-size:25px;">DOCTOR LOGIN</h3>
+<style>
+body{
+background-image:
+url('\hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+}
+h3
+{
+color:#000066;
+}
+td
+{
+padding:5px;
+border-spacing: 15px;
+font-size:23px;
+font-weight:bold;
+}
+td>input
+{
+display:inline-block;
+height:20px;
+}
+td>button
+{
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+<table border="0" align="center">
+<tbody>
+
+<tr>
+<td><label for="id">Doctor id: </label></td>
+<td><input id="id" maxlength="3" name="id" type="text" /></td>
+</tr>
+
+<tr>
+<td colspan="2" align="center" STYLE="padding:10px;"><button id=btn4 onclick="myFunction()">LOGIN</button>
+</td></tr>
+
+</tbody>
+</table>
+
+</html>
+<script>
+
+function myFunction() {
+    var ourRequest=new XMLHttpRequest();
+    ourRequest.open('GET','http://localhost:8080/hms/doctors');
+    ourRequest.onload=function(){
+	  var ourData=JSON.parse(ourRequest.responseText);
+	  renderHtml(ourData)	 
+ };
+ ourRequest.send();
+};
+function renderHtml(data)
+{   var i;
+    var id=document.getElementById("id").value;
+    var requiredData= data[id];
+    var specializationarr=[];
+    for(i=0;i<requiredData.length;i++)
+    	{
+    	specializationarr[i]=requiredData[i].specialization;
+    	}
+    if(specializationarr.length==1)
+    	{
+	window.open('/dochome.html?userid='+requiredData[0].doctorid+'&username='+requiredData[0].doctorname+'&specialization='+requiredData[0].specialization+'&age='+requiredData[0].age+'&emergencyno='+requiredData[0].emergencyno,'_self');
+    	}
+    else
+    	{
+    	window.open('/dochome.html?userid='+requiredData[0].doctorid+'&username='+requiredData[0].doctorname+'&specialization='+requiredData[0].specialization+","+requiredData[1].specialization+'&age='+requiredData[0].age+'&emergencyno='+requiredData[0].emergencyno,'_self');
+    	}
+			// open doctor home
+			//return;
+			
+			
+		
+	
+	};
+
+
+
+
+
+</script>

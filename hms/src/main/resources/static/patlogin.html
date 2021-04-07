@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>patient login</title>
+</head>
+<h1 ALIGN="center"  STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2 ALIGN="center" STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 ALIGN="CENTER" STYLE="font-size:30px;">PATIENT LOGIN</h3>
+<style>
+body{
+background-image:
+url('\hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+}
+h3
+{
+color:#000066;
+}
+td
+{
+padding:5px;
+border-spacing: 15px;
+font-size:23px;
+font-weight:bold;
+}
+td>input
+{
+display:inline-block;
+height:20px;
+}
+td>button
+{
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+<table border="0" align="center">
+<tbody>
+
+<tr>
+<td><label for="id" >Patient id: </label></td>
+<td><input id="id" maxlength="3" name="patient id" type="text" /></td>
+</tr>
+<tr>
+<td colspan="2" align="center" style="padding:20px;"><button id=btn3 onclick="myFunction()">LOGIN</button>
+</td></tr>
+
+</tbody>
+</table>
+
+</html>
+<script>
+function myFunction() {
+    var ourRequest=new XMLHttpRequest();
+    ourRequest.open('GET','http://localhost:8080/hms/patients');
+    ourRequest.onload=function(){
+	  var ourData=JSON.parse(ourRequest.responseText);
+	  renderHtml(ourData)	 
+ };
+ ourRequest.send();
+};
+function renderHtml(data)
+{   var i;
+    var id=document.getElementById("id").value;
+    var flag=true;
+	for(i=0;i<data.length;i++)
+		{
+		if(data[i].patientid==id)
+			{
+			
+			flag=false;
+			window.open('/patienthome.html?userid='+data[i].patientid+'&username='+data[i].patientname+'&age='+data[i].age+'&phonenumber='+data[i].phonenumber,'_self');
+			// open patient home
+			//return;
+		    
+		
+			}
+	 
+		}
+	if(flag)
+		{
+		alert('Please enter valid patient id');
+		}
+	
+	// TODO show error msg 
+	
+	};
+
+
+
+</script>

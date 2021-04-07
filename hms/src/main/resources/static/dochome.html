@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>home</title>
+</head>
+<h1 STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2  STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 id="hi" STYLE="font-size:40px;"></h3>
+<p id="id"></p>
+<p id="age"></p>
+<p id="specialization"></p>
+<p id="no"></p>
+<style>
+body{
+background-image:
+url('hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+text-align:center;
+}
+h3
+{
+color:#000066;
+}
+p
+{
+font-family:Comic Sans;
+text-align:center;
+font-size:25px;
+color:#171009;
+font-weight:bold;
+}
+td>button
+ {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+<table border="0" align="center">
+<tbody>
+<tr>
+<td colspan="2" align="center" style="padding:10px;"><button id=btn onclick="myFunction()">VIEW APPOINTMENT</button>
+</td></tr>
+
+</tbody>
+</table>
+
+</html>
+<script>
+
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const name = urlParams.get('username');
+	const id=urlParams.get('userid');
+	const age=urlParams.get('age');
+	const specialization=urlParams.get('specialization');
+	const no=urlParams.get('emergencyno');
+	document.getElementById("hi").innerHTML="WELCOME"+"  "+"DR."+name;
+    document.getElementById("specialization").innerHTML="SPECIALIZATION(S) :"+" "+specialization;
+    document.getElementById("no").innerHTML="PH.No :"+" "+no;
+	function myFunction() {
+		window.open('/viewapp.html?userid='+id+'&username='+name+'&specialization='+specialization+'&age='+age+'&emergencyno='+no,'_self');
+	}
+
+
+
+
+
+
+
+</script>

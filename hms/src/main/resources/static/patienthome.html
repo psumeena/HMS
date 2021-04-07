@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>home</title>
+</head>
+<h1 ALIGN="center"  STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2 ALIGN="center" STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 id="hi" ALIGN="CENTER" STYLE="font-size:40px;"></h3>
+<p id="id"></p>
+<p id="age"></p>
+<p id="no"></p>
+<style>
+body{
+background-image:
+url('hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+}
+h3
+{
+color:#000066;
+}
+td
+{
+padding:5px;
+border-spacing: 15px;
+font-size:20px;
+font-weight:bold;
+}
+p
+{
+font-family:Comic Sans;
+text-align:center;
+font-size:25px;
+font-style:italic;
+font-color:#171009;
+font-weight:bold;
+}
+td>button
+ {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+
+<table border="0" align="center">
+<tbody>
+
+<tr>
+<td colspan="2" align="center" style="padding:10px;"><button id=btn onclick="myFunction()">VIEW APPOINTMENT SCHEDULE</button>
+</td></tr>
+
+</tbody>
+</table>
+
+</html>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const myParam = urlParams.get('username');
+document.getElementById("hi").innerHTML="WELCOME"+"  "+myParam;
+const id=urlParams.get('userid');
+const age=urlParams.get('age');
+const phone=urlParams.get('phonenumber');
+document.getElementById("id").innerHTML="PATIENT ID :"+" "+id;
+document.getElementById("age").innerHTML="AGE :"+" "+age;
+document.getElementById("no").innerHTML="PH.No :"+" "+phone;
+function myFunction() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const id = urlParams.get('userid');
+	const name=urlParams.get('username');
+	window.open('/appschedule.html?userid='+id+'&username='+name,'_self');
+}
+
+
+
+</script>

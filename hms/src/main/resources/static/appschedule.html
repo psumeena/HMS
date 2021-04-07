@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>view appointment schdule</title>
+<h1 ALIGN="center"  STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2 ALIGN="center" STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 id=hi ALIGN="CENTER" STYLE="font-size:30px;"></h3>
+</head>
+<body id=body >
+<table align="center">
+<thead>
+<tr>
+<th>PATIENT ID</th>
+<th>PATIENT NAME</th>
+<th>DISEASE</th>
+<th>DOCTOR NAME</th>
+<th>TIMING</th>
+<th>APPOINTMENT STATUS</th>
+</tr>
+<thead>
+<tbody id=tbody>
+</tbody>
+</table>
+<div>
+<button id=home onclick="goToHome()" align="center">HOME</button>
+</div>
+</body>
+<style>
+body{
+background-image:
+url('\hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+text-align: center;
+}
+div
+{
+padding-top:20px;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+}
+h3
+{
+color:#000066;
+}
+tbody,thead,th,td,tr
+{
+font-family:Comic Sans;
+border: 2px solid black;
+padding:17px;
+border-spacing: 10px;
+font-size:20px;
+text-align: center;
+font-style: italic;
+}
+
+table
+{
+border-collapse: collapse;
+table-layout:auto;
+width: 180px;
+}
+th
+{
+font-size:20px;
+background-color:#c0c0c0;
+}
+td
+{
+background-color:#e0e0e0;
+font-weight: bold;
+}
+button
+{
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+</html>
+<script>
+    var ourRequest=new XMLHttpRequest();
+    ourRequest.open('GET','http://localhost:8080/hms/timings');
+    ourRequest.onload=function(){
+	  var ourData=JSON.parse(ourRequest.responseText);
+	  renderHtml(ourData);
+	  
+ };
+ ourRequest.send();
+function renderHtml(data)
+{
+	window.app=data;
+    var tableString="";
+
+    tbody=document.getElementById('tbody');
+	var i;
+	const urlParams = new URLSearchParams(window.location.search);
+	const id=urlParams.get('userid');
+	const name=urlParams.get('username');
+	document.getElementById("hi").innerHTML="APPOINTMENT SCHEDULE FOR "+name;
+	for(i=0;i<data.length;i++)
+		{
+	if(data[i].patient.patientid==id)
+		{
+	    tableString += "<tr>"+"<td>"+data[i].patient.patientid+"</td>"+"<td>" +data[i].patient.patientname + "</td>"+"<td>"+data[i].patient.disease.diseasename+"</td>"+"<td>"+"Dr."+data[i].doctor.doctorname+"</td>"+"<td>"+data[i].timing+"</td>"+"<td id="+data[i].patient.patientid+">"+data[i].status+"</td>"+"</tr>";	
+		  
+		}
+	    }
+	    tbody.innerHTML = tableString;
+	    if(document.getElementById(id).innerText=='Approved')
+	   	{
+	   	document.getElementById(id).style.backgroundColor='green';
+	   	}
+
+	};
+	function goToHome()
+	{
+		window.open('/home.html','_self');
+	}
+	
+
+
+
+
+
+
+</script>

@@ -1,0 +1,161 @@
+<html>
+<head>
+<title>view appointment</title>
+<h1 ALIGN="center"  STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2 ALIGN="center" STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 id=hi ALIGN="CENTER" STYLE="font-size:30px;"></h3>
+</head>
+<body id=body >
+<table align="center">
+<thead>
+<tr>
+<th>PATIENT ID</th>
+<th>PATIENT NAME</th>
+<th>DISEASE</th>
+<th>TIMING</th>
+<th>STATUS</th>
+<th>APPROVE</th>
+</tr>
+<thead>
+<tbody id=tbody>
+</tbody>
+</table>
+<div>
+<button id=home onclick="goToHome()" align="center">HOME</button>
+</div>
+</body>
+<style>
+body{
+background-image:
+url('\hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+text-align: center;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+}
+tbody,thead,th,td,tr
+{
+
+border: 2px solid black;
+padding:15px;
+border-spacing: 12px;
+font-size:20px;
+text-align: center;
+font-family:Comic Sans;
+font-style:italic;
+}
+h3
+{
+color:#000066;
+}
+table
+{
+border-collapse: collapse;
+table-layout:auto;
+width: 180px;
+}
+th
+{
+font-size:20px;
+background-color:#c0c0c0;
+}
+div
+{
+padding-top:20px;
+}
+td
+{
+background-color:#e0e0e0;
+}
+td>button
+{
+  border:1px solid black;
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+button
+{
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+</html>
+<script>
+    var ourRequest=new XMLHttpRequest();
+    ourRequest.open('GET','http://localhost:8080/hms/timings');
+    ourRequest.onload=function(){
+	  var ourData=JSON.parse(ourRequest.responseText);
+	  renderHtml(ourData);
+	  
+ };
+ ourRequest.send();
+function renderHtml(data)
+{
+    var tableString="";
+
+    tbody=document.getElementById('tbody');
+	var i;
+	var patid;
+	const urlParams = new URLSearchParams(window.location.search);
+	const id=urlParams.get('userid');
+	const name=urlParams.get('username');
+	document.getElementById("hi").innerHTML="APPOINTMENT FOR DR."+name;
+	for(i=0;i<data.length;i++)
+		{
+	if(data[i].doctor.doctorid==id)
+		{
+		patid=data[i].patient.patientid;
+	    tableString += "<tr>"+"<td>"+data[i].patient.patientid+"</td>"+"<td>" +data[i].patient.patientname + "</td>"+"<td>"+data[i].patient.disease.diseasename+"</td>"+"<td>"+data[i].timing+"</td>"+"<td id="+data[i].patient.patientid+">"+data[i].status+"</td>"+"<td>"+"<button id= btn onclick='myfunction("+data[i].patient.patientid+")'>"+"Approve"+"</button>"+"</td>"+"</tr>";	
+		}
+		}
+	    tbody.innerHTML = tableString;
+	    if(document.getElementById(patid).innerText=='Approved')
+	   	{
+	   	document.getElementById(patid).style.backgroundColor='green';
+	   	document.getElementById("btn").disabled=true;
+	   	}
+
+	};
+   
+	function myfunction(id)
+	{
+        
+		var app={
+				patient:
+		                {patientid:id},
+			    status:'Approved'
+		};
+	
+		
+	var xhr=new XMLHttpRequest();
+	xhr.open('PUT','http://localhost:8080/hms/appointment',true);
+	xhr.setRequestHeader('Content-Type','application/json');
+	xhr.send(JSON.stringify(app));
+	document.getElementById(id).style.backgroundColor='green';
+	document.getElementById(id).innerHTML="Approved";
+	document.getElementById("btn").disabled=true;
+	
+	};
+	function goToHome()
+	{
+		window.open('/home.html','_self');
+	}
+
+
+
+
+
+</script>

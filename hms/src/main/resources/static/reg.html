@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>registration form</title>
+</head>
+<h1 ALIGN="center"  STYLE="font-size:40px;"><b>MNSY HOSPITAL MANAGEMENT SYSTEM</b></h1>
+<h2 ALIGN="center" STYLE="font-size:30px;">"WE CARE FOR YOUR HEALTH"</h2>
+<hr>
+<h3 ALIGN="CENTER" STYLE="font-size:30px;">REGISTER AND MAKE APPOINTMENT</h3>
+<style>
+body{
+background-image:
+url('\hospital3.jpg');
+background-repeat:no-repeat;
+background-attachment: fixed;
+background-size: cover;
+}
+h1,h2,h3
+{
+font-family:Comic Sans;
+font-style:italic;
+color:#171009;
+}
+h3
+{
+color:#000066;
+}
+
+td
+{
+padding:5px;
+border-spacing: 15px;
+font-size:23px;
+font-weight:bold;
+}
+td>input,td>select
+{
+display:inline-block;
+height:25px;
+}
+td>button
+{
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+</style>
+
+<table border="0" align="center">
+<tbody>
+
+<tr>
+<td><label for="name">Name: </label></td>
+<td><input id="name" maxlength="50" name="name" type="text" /></td>
+</tr>
+
+<tr>
+<td><label for="age">Age: </label></td>
+<td><input id="age" maxlength="50" name="age" type="text" /></td>
+</tr>
+
+<tr>
+<td><label for="address">Address: </label></td>
+<td><input id="address" maxlength="50" name="address" type="text" /></td>
+</tr>
+
+<tr>
+<td><label for="phonenumber">Phone number: </label></td>
+<td><input id="phonenumber" maxlength="50" name="phonenumber" type="text" /></td>
+</tr>
+
+<tr>
+<td><label for="disease">State your complication: </label></td>
+<td><select id="disease" name="disease" style="width: 165px;">
+  <option value="" disabled selected>-select an option-</option>
+  <option value="D1">Alzheimer</option>
+  <option value="D2">Dermatitis</option>
+  <option value="D3">Anxiety</option>
+  <option value="D4">High/low BP</option>
+  <option value="D5">Trauma</option>
+  <option value="D6">Arthritis</option>
+  <option value="D7">Diabetes</option>
+</select></td>
+</tr>
+<tr>
+<td colspan="2" align="center" style="padding:10px;"><button id=btn onclick="getValues()">MAKE APPOINTMENT</button>
+</td></tr>
+
+</tbody>
+</table>
+
+</html>
+<script>
+function getValues() {
+    var name=document.getElementById("name").value;
+    var age=document.getElementById("age").value;
+    var address=document.getElementById("address").value;
+    var phoneno=document.getElementById("phonenumber").value;
+    var diseaseid=document.getElementById("disease").value;
+
+    	var doc={
+    			'D1':102,
+    			'D2':101,
+    			'D3':103,
+    			'D4':105,
+    			'D5':104,
+    			'D6':101,
+    			'D7':105
+    	};
+		var pat={patientname:name,
+				age:age,
+				address:address,
+				disease:{diseaseid:diseaseid},
+				phonenumber:phoneno,
+				doctorid:doc[diseaseid]
+		};
+		
+	var xhr=new XMLHttpRequest();
+	xhr.open('POST','http://localhost:8080/hms/patient',true);
+	xhr.setRequestHeader('Content-Type','application/json');
+	xhr.send(JSON.stringify(pat));
+
+	xhr.onreadystatechange=function()
+{
+		if(this.readyState==4 && this.status==200)
+			{
+			xhr.onload=function(){
+				  var patient=JSON.parse(xhr.responseText);
+				  var id=patient.patientid;
+			document.getElementById("btn").disabled=true;
+			alert("Appointment made successfully! Login to proceed further[Your Patient id:"+id+"]");
+			window.open('/patlogin.html?userid='+id+'&username='+patient.patientname,'_self');
+			};
+			}
+		};
+	
+	
+	 
+};
+
+
+
+
+
+</script>
